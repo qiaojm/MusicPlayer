@@ -23,6 +23,7 @@ xhr.open("GET",url);
 xhr.responseType="arraybuffer";
 xhr.onlode = function(){
 	audioCtx.decodeAudioData(xhr.response, function(buffer) {
+		console.log(xhr.response);
 		var source = audioCtx.createBufferSource();
         source.buffer = buffer;
         source.connect(audioCtx.destination);
