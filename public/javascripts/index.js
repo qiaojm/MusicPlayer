@@ -35,40 +35,38 @@ function load(url) {
             source.connect(audioCtx.destination);
             // start the source playing
             source.start(); // https://developer.mozilla.org/zh-CN/docs/Web/API/AudioBufferSourceNode
-        }, function(e) {
-            console.log(err);
-        });
-
-        // 方法二：新的promise-based语法
-        audioCtx.decodeAudioData(audioData).then(function(decodedData) {
-            // use the decoded data here
-            var source = audioCtx.createBufferSource();
-            source.buffer = decodedData;
-            // connect the AudioBufferSourceNode to the
-            // destination so we can hear the sound
-            source.connect(audioCtx.destination);
-            // start the source playing
-            source.start();
         }, function(error) {
             console.log(error);
         });
 
+        // 方法二：新的promise-based语法
+        // audioCtx.decodeAudioData(audioData).then(function(decodedData) {
+        //     // use the decoded data here
+        //     var source = audioCtx.createBufferSource();
+        //     source.buffer = decodedData;
+        //     // connect the AudioBufferSourceNode to the
+        //     // destination so we can hear the sound
+        //     source.connect(audioCtx.destination);
+        //     // start the source playing
+        //     source.start();
+        // }, function(error) {
+        //     console.log(error);
+        // });
+
     }
-
-    // xhr.onlode = function(){
-    // 	audioCtx.decodeAudioData(xhr.response, function(buffer) {
-    // 		console.log(xhr.response);
-    // 		var source = audioCtx.createBufferSource();
-    //         source.buffer = buffer;
-    //         source.connect(audioCtx.destination);
-    //         source[source.start?"start":"noteOn"](0);
-    //       },function(e){console.log(err);});
-
-    //   }
     xhr.send();
 }
 
+// xhr.onlode = function(){
+// 	audioCtx.decodeAudioData(xhr.response, function(buffer) {
+// 		console.log(xhr.response);
+// 		var source = audioCtx.createBufferSource();
+//         source.buffer = buffer;
+//         source.connect(audioCtx.destination);
+//         source[source.start?"start":"noteOn"](0);
+//       },function(e){console.log(err);});
 
+//   }
 
 
 
