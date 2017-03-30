@@ -31,6 +31,9 @@ header h1{
 	height: 70px;
 	line-height: 70px;
 }
+#volume{
+	margin-top: -30px;
+}
 .left{
 	top:170px;
     left:10px;
