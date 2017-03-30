@@ -21,7 +21,7 @@ var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function load(url){
 xhr.open("GET",url);
 xhr.responseType="arraybuffer";
-xhr.onlode = function(){
+xhr.onload = function(){
 	audioCtx.decodeAudioData(xhr.response, function(buffer) {
 		var source = audioCtx.createBufferSource();
         source.buffer = buffer;
@@ -32,11 +32,6 @@ xhr.onlode = function(){
   }
 xhr.send();
 }
-
-
-
-
-
 //发送一个http请求2
 // function load(url){
 // 	 xhr=null;
