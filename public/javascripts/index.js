@@ -30,6 +30,17 @@ xhr.onlode = function(){
       },function(e){console.log(err);});
 
   }
+
+// xhr.onlode = function(){
+// 	audioCtx.decodeAudioData(xhr.response, function(buffer) {
+// 		console.log(xhr.response);
+// 		var source = audioCtx.createBufferSource();
+//         source.buffer = buffer;
+//         source.connect(audioCtx.destination);
+//         source[source.start?"start":"noteOn"](0);
+//       },function(e){console.log(err);});
+
+//   }
 xhr.send();
 }
 
