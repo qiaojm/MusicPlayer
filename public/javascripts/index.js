@@ -24,9 +24,41 @@ var gainNode = audioCtx[audioCtx.createGain?"createGain":"createGainNode"]() ;
 var judgeSource = null;
 //若前一首歌曲还未解码，这时仍然会同时播放多首歌曲
 var count = 0;
+//创建一个接收频率的对象
+var analyser = audioCtx.createAnalyser();
+var size = 128;
+analyser.fftSize = size * 2;
+//绘制canvas的容器
+var canvasBox = $("#canvasBox")[0];
+var height,width;
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+canvasBox.appendChild(canvas);
+function resize(){
+    height = canvasBox.clientHeight;
+    width = canvasBox.clientWidth;
+    canvas.height = height;
+    canvas.width = width;
+    var line = ctx.createLinearGradient(0,0,0,height);
+    line.addColorStop(0,"red");
+    line.addColorStop(0.5,"orange");
+    line.addColorStop(1,"yellow");
+    ctx.fillStyle = line;
+
+}
+resize();
+window.onresize = resize;
+function draw(dataArray){
+    ctx.clearRect(0,0,width,height);
+    var w = width/size;
+for (var i = 0; i < size; i++) {
+     var h = dataArray[i] / 256 *height;
+    ctx.fillRect(w * i,height - h,w * 0.6,h)
+}
+}
 function load(url) {
 	var n = ++count;
-    console.log(n,count);
+    // console.log(n,count);
     xhr.abort();//取消当前响应，关闭连接并且结束任何未决的网络活动。
     xhr.open("GET", url);
     xhr.responseType = "arraybuffer";
@@ -38,10 +70,11 @@ function load(url) {
         audioCtx.decodeAudioData(xhr.response, function(buffer) {
             //创建一个控制歌曲播放的对象 
     	if(n != count) return;           
-            console.log(n,count);
+            // console.log(n,count);
         	var source = audioCtx.createBufferSource();
             source.buffer = buffer;
-            source.connect(gainNode);
+            source.connect(analyser);
+            analyser.connect(gainNode);
             gainNode.connect(audioCtx.destination);
             //设置循环
             source.loop = true;
@@ -69,6 +102,26 @@ function load(url) {
     }
     xhr.send();
 }
+//获取音乐文件频率实现可视化的函数
+function visualizer(){
+    var dataArray = new Uint8Array(analyser.frequencyBinCount);
+    // console.log(dataArray);
+    requestAnimationFrame = window.requestAnimationFrame ||
+                           window.webkitRequestAnimationFrame ||
+                           window.mozRequestAnimationFrame
+        //重绘频率函数
+      function v(){
+      analyser.getByteFrequencyData(dataArray);
+        console.log(dataArray);
+       //绘制canvas图像
+       draw(dataArray);
+       requestAnimationFrame(v);
+      }                     
+       requestAnimationFrame(v);
+
+}
+ visualizer();
+//改变音量的函数
 function changeVolume(percent){
 	gainNode.gain.value = percent*percent ;
 }
