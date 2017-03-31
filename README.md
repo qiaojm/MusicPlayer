@@ -1,4 +1,5 @@
 # MusicPlayer
+[![Travis branch](https://img.shields.io/travis/qiaojm/MusicPlayer/master.svg)](https://travis-ci.org/qiaojm/MusicPlayer)
 ### 简单介绍
 - 服务端:Node+Express+ejs
 - 前端界面:HTML+CSS3+JS
